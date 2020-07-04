@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './home.css';
 import Card from '../Card';
-import Sidebar from '../Sidebar';
+// import Sidebar from '../Sidebar';
 import MobileHeader from '../MobileHeader';
 import axios from 'axios';
 
