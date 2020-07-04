@@ -1,0 +1,81 @@
+.pokemon_card {
+  display: flex;
+  flex-direction: column;
+  margin: 6px;
+
+  height: 215px;
+  /* max-height: 280px; */
+
+  border-radius: 3px;
+  padding: 15px 20px;
+  background-color: #273E7C;
+  color: #F0F3FA;
+}
+
+.pokemon_card img {
+  align-self: center;
+  width: 150px;
+
+  image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
+  image-rendering: -moz-crisp-edges;          /* Firefox                        */
+  image-rendering: -o-crisp-edges;            /* Opera                          */
+  image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
+  image-rendering: pixelated; /* Chrome */
+  image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+}
+
+
+/* .loading_card {
+
+} */
+
+@keyframes loading {
+    from{opacity: 1;}
+    to{opacity: 0;}
+}
+
+
+
+
+
+
+
+
+
+.add_to_cart {
+  height: 40px;
+  width: 40px;
+
+  border-radius: 3px;
+  padding: 7px;
+  /* margin-top: 10px; */
+  align-self: center;
+  /* background-color: #FFFB46; */
+  border: 2px solid #E0D100;
+  background-color: #FFF23A;
+  font-weight: 600;
+}
+
+.add_to_cart svg {
+  height: 100%;
+  width: 100%;
+}
+
+.card_info {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  /* background-color: darkgray; */
+}
+
+.pokemon_details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.card_button {
+  display: flex;
+  align-self: flex-end;
+}
