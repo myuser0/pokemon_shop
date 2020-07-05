@@ -1,10 +1,39 @@
-import React, {useState, useEffect} from 'react'
-import './MobileHeader.css'
+import React from 'react'
+import Card from './Card'
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
 
-export default function MobileHeader({cartItems}) {
-  // let [cartValue, setCartValue] = useState(0);
-
+export default function PokemonCatalogue({pokemonList, getNextPage, getPreviousPage, cartItems, setCartItems}) {
   return (
-    <p>nothing here yet</p>
+    <div className="store_items_container">
+        <TransitionGroup >
+          <div className="store_items">
+            {pokemonList.map(({id, name, price, types, sprites}) => 
+              <CSSTransition
+                in={pokemonList}
+                key={id}
+                timeout={{
+                  enter: 350,
+                  exit: 0
+                }}
+                classNames="pokemonItem"
+              >
+                <Card 
+                  id={id} 
+                  name={name} 
+                  price={price} 
+                  type={types[0].type.name} 
+                  picture={sprites.front_default}
+                  cartItems={cartItems}
+                  setCartItems={setCartItems}
+                />
+              </CSSTransition>
+              )
+            }
+          </div>
+        </TransitionGroup>
+      </div>
   )
 }

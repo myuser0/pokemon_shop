@@ -128,3 +128,12 @@
   opacity: 0;
   transition: opacity 200ms ease-in;
 }
+
+
+
+@media (max-width: 800px) {
+  .sidebar_cart {
+    /* flex-direction: column; */
+    width: 100%;
+  }
+}

@@ -20,7 +20,7 @@ export default function Sidebar({cartItems, setCartItems}) {
 
   useEffect(() => {
     getTotalCartValue();
-  }, [cartItems])
+  }, [cartItems]);
 
   return (
     <aside className="sidebar_cart">

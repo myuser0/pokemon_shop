@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import './home.css';
-import Card from '../Card';
-// import Sidebar from '../Sidebar';
-import MobileHeader from '../MobileHeader';
 import axios from 'axios';
+import './home.css';
 
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
+import PokemonCatalogue from '../PokemonCatalogue';
+import Sidebar from '../Sidebar';
+import MobileHeader from '../MobileHeader';
+import PageNavigation from '../PageNavigation';
 
 export default function Home() {
   const initialCartItems = JSON.parse(localStorage.getItem('shoppingCart')) || [];
@@ -24,7 +21,6 @@ export default function Home() {
 
   async function getNextPage() {
     await getApiData(nextPage);
-    console.log(nextPage);
   }
 
   async function getPreviousPage() {
@@ -35,6 +31,17 @@ export default function Home() {
     const api_result = await axios.get(API_URL);
     const pokemonDetails = await api_result.data;
     return pokemonDetails;
+  }
+
+  async function definePokemonPrice(pokemonId) {
+    let price = 0;
+    if (localStorage.getItem(pokemonId)){
+      price = JSON.parse(localStorage.getItem(pokemonId)).price;
+    } else {
+      price = Math.floor(Math.random() * 1000);
+      localStorage.setItem(pokemonId, JSON.stringify({price}));
+    }
+    return price;
   }
 
   async function getApiData(API_URL) {
@@ -49,12 +56,7 @@ export default function Home() {
     const pokemonWithDetails = await Promise.all(
         api_data.results.map(async (pokemon) => {
           const pokemonDetails = await getPokemonDetails(pokemon.url);
-          let price = null;
-          if (localStorage.getItem(pokemonDetails.id)) price = JSON.parse(localStorage.getItem(pokemonDetails.id)).price;
-          else {
-            price = Math.floor(Math.random() * 1000);
-            localStorage.setItem(pokemonDetails.id, JSON.stringify({price}));
-          }
+          let price = await definePokemonPrice(pokemonDetails.id);   
           const pokemonWithDetails = {...pokemon, ...pokemonDetails, price};
           return pokemonWithDetails;
         })
@@ -63,81 +65,43 @@ export default function Home() {
     setPokemonList(pokemonWithDetails);
   };
 
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  
+  let handleResize = (e) => {
+    const windowWidth = window.innerWidth;
+    setWindowWidth(windowWidth);
+    // console.log('Window Width:', windowWidth);
+  };
+
   useEffect(() => {
+    window.addEventListener('resize', handleResize);
     getApiData(nextPage);
+    return _ => {window.removeEventListener('resize', handleResize)}
   }, [])
 
+  const [showCartMobile, setShowCartMobile] = useState(false);
+  function toggleMobileCart() {
+    showCartMobile ? setShowCartMobile(false) : setShowCartMobile(true);
+  }
 
   return (
     <div className="shop">
-      <MobileHeader cartItems={cartItems}></MobileHeader>
+      { windowWidth < 800 ?
+        <MobileHeader cartItems={cartItems} toggleMobileCart={toggleMobileCart}></MobileHeader> : ''
+      }
 
-      <div className="store_items_container">
-        <TransitionGroup >
-          <div className="store_items">
-            {pokemonList.map(({id, name, price, types, sprites}) => 
-              <CSSTransition
-                in={pokemonList}
-                key={id}
-                timeout={{
-                  enter: 350,
-                  exit: 0
-                }}
-                classNames="pokemonItem"
-              >
-                <Card 
-                  id={id} 
-                  name={name} 
-                  price={price} 
-                  type={types[0].type.name} 
-                  picture={sprites.front_default}
-                  cartItems={cartItems}
-                  setCartItems={setCartItems}
-                  />
-              </CSSTransition>
-              )
-            }
-          </div>
-        </TransitionGroup>
-      
-        <br></br>
-        <div className="page_navigation">
-          <button className="yellow_btn" onClick={getPreviousPage}>Previous Page</button>
-          <button className="yellow_btn" style={{marginLeft: '15px'}} onClick={getNextPage}>Next Page</button>
+      {showCartMobile ? '' :
+        <div style={{display: 'flex', flexDirection: 'column', flex: '1'}}>
+          <PokemonCatalogue pokemonList={pokemonList} cartItems={cartItems} setCartItems={setCartItems}/>
+          <PageNavigation getNextPage={getNextPage} getPreviousPage={getPreviousPage} />
         </div>
-      </div>
-      {/* <Sidebar cartItems={cartItems} setCartItems={setCartItems}></Sidebar> */}
+      }
+
+      {windowWidth >= 800 || showCartMobile ?
+        <Sidebar cartItems={cartItems} setCartItems={setCartItems}></Sidebar> : ''
+      }
     </div>
   )
-
-
-  // return (
-  //   <div className="shop">
-  //     <div className="store_items_container">
-  //       <div className="store_items">
-  //           {pokemonList.map(({id, name, price, types, sprites}) => 
-  //             <Card 
-  //               id={id} 
-  //               name={name} 
-  //               price={price} 
-  //               type={types[0].type.name} 
-  //               picture={sprites.front_default}
-  //               cartItems={cartItems}
-  //               setCartItems={setCartItems}
-  //               />
-  //             )
-  //           }
-  //       </div>
-      
-  //       <br></br>
-  //       <div>
-  //         <button style={{marginLeft: '20px'}} onClick={getPreviousPage}>Previous Page</button>
-  //         <button style={{marginLeft: '15px'}} onClick={getNextPage}>Next Page</button>
-  //       </div>
-  //     </div>
-  //     <Sidebar cartItems={cartItems} setCartItems={setCartItems}></Sidebar>
-  //   </div>
-  // )
-
 
 }
