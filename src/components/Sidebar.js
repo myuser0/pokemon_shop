@@ -29,7 +29,7 @@ export default function Sidebar({cartItems, setCartItems}) {
         {(cartItems.length === 0) ? <p style={{marginTop: '10px', textAlign: 'center'}}>Carrinho vazio. Não gostou dos nossos Pokémon? :(</p> : null}
         <ul>
           <TransitionGroup className="pokemon_cart">
-            {cartItems.map(({ id, name, price }) => (
+            {cartItems.map(({ id, name, price, picture }) => (
               <CSSTransition
                 in={cartItems}
                 key={id}
@@ -37,8 +37,8 @@ export default function Sidebar({cartItems, setCartItems}) {
                 classNames="item"
               >
                 <li>
-                  <div className="cart_item_name">
-                    <img src="#" alt=''/>
+                  <div className="cart_item_info">
+                    <img src={picture} alt=''/>
                     <p>{name} 1x</p>
                   </div>
                   <div className='cart_row_right'>

@@ -49,11 +49,19 @@
   list-style: none;
 }
 
-.cart_item_name{
+.cart_item_info{
   display: flex;
   flex: 1;
   align-self: flex-start;
 }
+
+.cart_item_info img {
+  height: 25px;
+  margin-right: 10px;
+}
+
+
+
 
 .cart_row_right {
   display: flex;
@@ -86,7 +94,8 @@
 .remove_button {
   /* background-color: #F93943; */
   /* opacity: 80%; */
-  background-color: #E3353E;
+  /* background-color: #E3353E; */
+  background-color: #E43941;
   border: 0px;
   color: #4F0206;
   font-weight: 600;
