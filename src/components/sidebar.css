@@ -84,9 +84,9 @@
 
 
 .remove_button {
-  /* background-color: #DD2D4A; */
-  background-color: #F93943;
-  /* border: 2px solid #22366D; */
+  /* background-color: #F93943; */
+  /* opacity: 80%; */
+  background-color: #E3353E;
   border: 0px;
   color: #4F0206;
   font-weight: 600;
@@ -95,14 +95,9 @@
   padding-left: 7px;
   padding-right: 7px;
   padding-bottom: 2px;
-  outline: inherit;
-  opacity: 80%;
   
-  
-  display: table-cell;
-  vertical-align: middle;
-  /* border-color: #22366D; */
-  
+  /* display: table-cell; */
+  /* vertical-align: middle; */
 }
 
 
