@@ -8,7 +8,6 @@ export default function MobileHeader({cartItems, toggleMobileCart, handlePokemon
     let count = 0;
     cartItems.forEach(item => {count += item.quantity});
     setCartItemsCount(count)
-    console.log('Fui chamado')
   }, [cartItems]);
   
   function handleEnterKey(e) {
