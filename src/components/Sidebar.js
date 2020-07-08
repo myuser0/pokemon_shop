@@ -12,7 +12,7 @@ export default function Sidebar({cartItems, setCartItems}) {
   function getTotalCartValue() {
     let cartTotalValue = 0;
     cartItems.forEach(item => {
-      cartTotalValue += item.price;
+      cartTotalValue += item.price * item.quantity;
     });
 
     setCartValue(cartTotalValue);
@@ -29,9 +29,9 @@ export default function Sidebar({cartItems, setCartItems}) {
         {(cartItems.length === 0) ? <p style={{marginTop: '10px', textAlign: 'center'}}>Carrinho vazio. Não gostou dos nossos Pokémon? :(</p> : null}
         <ul>
           <TransitionGroup className="pokemon_cart">
-            {cartItems.map(({ id, name, price, picture }) => (
+            {cartItems.map(({ id, name, price, picture, quantity }) => (
               <CSSTransition
-                in={cartItems}
+                // in={cartItems}
                 key={id}
                 timeout={350}
                 classNames="item"
@@ -39,28 +39,25 @@ export default function Sidebar({cartItems, setCartItems}) {
                 <li>
                   <div className="cart_item_info">
                     <img src={picture} alt=''/>
-                    <p>{name} 1x</p>
+                    <p>{name} {quantity}x</p>
                   </div>
                   <div className='cart_row_right'>
                     <p>${price}</p>
                     <button className="remove_button" onClick={() =>
-                      setCartItems(cartItems =>
-                        cartItems.filter(item => item.id !== id)
-                      )}>
+                      setCartItems(cartItems => cartItems.filter(item => item.id !== id)
+                    )}>
                       x
                     </button>
                   </div>
                 </li>
-
-                {/* </div> */}
               </CSSTransition>
             ))}
           </TransitionGroup>
         </ul>
+
         <h4 style={{textAlign: "end", margin: '10px 5px 10px 0'}}>Total: ${cartValue}</h4> 
         { cartItems[0] ? <button id="proceed_checkout">Prosseguir para checkout</button> : ''}
       </div>
-
     </aside>
 
   )

@@ -5,14 +5,13 @@ import {
   TransitionGroup,
 } from 'react-transition-group';
 
-export default function PokemonCatalogue({pokemonList, getNextPage, getPreviousPage, cartItems, setCartItems}) {
+export default function PokemonCatalogue({pokemonList, cartItems, setCartItems}) {
   return (
     <div className="store_items_container">
         <TransitionGroup >
           <div className="store_items">
             {pokemonList.map(({id, name, price, types, sprites}) => 
               <CSSTransition
-                in={pokemonList}
                 key={id}
                 timeout={{
                   enter: 350,
